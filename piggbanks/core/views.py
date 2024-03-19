@@ -1,43 +1,22 @@
+# core/views.py
+
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ModelViewSet
-
-from  .models import Currency,Category,Transaction
-from .serializers import CategorySerializer,CurrencySerializer,TransactionSerializer
-
-
+from .models import Currency, Category, Transaction
+from .serializers import CategorySerializer, CurrencySerializer, ReadTransactionSerializer,  WriteTransactionSerializer
 
 class CurrencyListAPIView(ListAPIView):
     queryset = Currency.objects.all()
-    serializer_class  = CurrencySerializer
-    
-"""
-In summary, this code defines a view (CurrencyListAPIView) that handles GET requests to retrieve a list of Currency objects. It fetches all Currency objects from the database and uses the CurrencySerializer to serialize them into JSON format for the HTTP response
-"""
-    
+    serializer_class = CurrencySerializer
 
-    
-    
-    
-    #uses class based view approach
 class CategoryModelViewSet(ModelViewSet):
-    queryset  = Category.objects.all()
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    
-    
- 
- 
- 
- 
+
 class TransactionModelViewSet(ModelViewSet):
-    queryset  = Transaction.objects.all()
-    serializer_class = TransactionSerializer
-     
-     
-     
+    queryset = Transaction.objects.all()
+    
     def get_serializer_class(self):
-        return TransactionSerializer
-    
-    
-        
-    
-    
+        if self.action in ("list", "retrieve"):
+            return ReadTransactionSerializer
+        return WriteTransactionSerializer
