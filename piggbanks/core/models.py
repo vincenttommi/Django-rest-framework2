@@ -1,6 +1,9 @@
 from django.db import models
+from  django.contrib.auth.models import User
+#importing user from django
 
 class Currency(models.Model):
+    
     code = models.CharField(max_length=32, unique=True)
     name = models.CharField(max_length=32, blank=True)
     
@@ -8,12 +11,19 @@ class Currency(models.Model):
         return self.name
     
 class Category(models.Model):
-    name = models.CharField(max_length=32, unique=True)
     
-    def __str__(self):
+    
+    user  = models.ForeignKey(User, on_delete=models.CASCADE, related_name="categories")
+    name = models.CharField(max_length=32, blank=True)
+    
+    def __str__(self):  
         return self.name
     
 class Transaction(models.Model):
+    
+    
+    user  = models.ForeignKey(User, on_delete=models.CASCADE,  related_name="transactions")
+    #assigng the Transaction to show each user that made the transaction
     amount = models.DecimalField(max_digits=15, decimal_places=2)
     currency = models.ForeignKey(Currency, on_delete=models.PROTECT, related_name="transactions")
     date = models.DateTimeField()
