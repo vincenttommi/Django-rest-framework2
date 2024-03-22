@@ -52,3 +52,13 @@ class ReadTransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ("id","amount","currency","description","category","user")
         read_only_fields  = ['amount','currency','date','description','catgeory']
+
+
+
+class ReportEntrySerializer(serializers.Serializer):
+     category = CategorySerializer()
+     total = serializers.DecimalField(max_digits=15, decimal_places=2)
+     count = serializers.IntegerField()
+     avg = serializers.DecimalField(max_digits=15, decimal_places=2)
+    
+    

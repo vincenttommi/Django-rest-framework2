@@ -14,5 +14,6 @@ router.register(r'transactions', views.TransactionModelViewSet, basename="transa
 
 urlpatterns = [
     path("login/", obtain_auth_token, name="obtain-auth-token"),
-    path("currencies/", views.CurrencyListAPIView.as_view() ,  name="currencies")
+    path("currencies/", views.CurrencyListAPIView.as_view() ,  name="currencies"),
+    path("report/", views.TransactionReportAPIView.as_view(), name="report"),
 ] + router.urls
